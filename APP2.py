@@ -46,6 +46,10 @@ if numero_lote_buscar:
         enlace_imagen = resultado.iloc[0]['PNG']
         st.image(enlace_imagen, caption=f"Imagen del producto {producto}", use_column_width=True)
 
+        # Mostrar plano del almacen
+        foto_almacen = "PLANO.png"
+        st.image(foto_almacen, caption="Plano del almacén", use_column_width=True)
+
 
 # In[ ]:
 
