@@ -34,10 +34,11 @@ if numero_lote_buscar:
         st.warning("El número de lote no fue encontrado. Recuerda que si lleva letras deben estar en mayúsculas")
     else:
         producto = resultado.iloc[0]['PRODUCTO']
-        calle = int(resultado.iloc[0]['CALLE'])
-        jaula = int(resultado.iloc[0]['JAULA'])
-        cajon = int(resultado.iloc[0]['CAJON'])
-        stock = int(resultado.iloc[0]['STOCK'])
+        # Manejar casos de valores desconocidos o NaN
+        calle = resultado.iloc[0]['CALLE'] if pd.notna(resultado.iloc[0]['CALLE']) else "Desconocido"
+        jaula = resultado.iloc[0]['JAULA'] if pd.notna(resultado.iloc[0]['JAULA']) else "Desconocido"
+        cajon = resultado.iloc[0]['CAJON'] if pd.notna(resultado.iloc[0]['CAJON']) else "Desconocido"
+        stock = resultado.iloc[0]['STOCK'] if pd.notna(resultado.iloc[0]['STOCK']) else "Desconocido"
         
         # Mostrar la información en diferentes párrafos
         st.success(f"El producto {producto} con número de lote {numero_lote_buscar} se encuentra en:")
@@ -46,11 +47,14 @@ if numero_lote_buscar:
         st.write(f"Cajón: {cajon}")
         st.write(f"Stock: {stock} pcs.")
 
-        # Mostrar plano del almacen
+        # Mostrar plano del almacén
         foto_almacen = "PLANO.png"
         st.image(foto_almacen, caption="Plano del almacén", use_column_width=True)
         
-        # Mostrar imagen producto
+        # Verificar si la columna de imagen está vacía antes de intentar mostrarla
         enlace_imagen = resultado.iloc[0]['PNG']
-        st.image(enlace_imagen, caption=f"Imagen del producto {producto}", use_column_width=True)
+        if pd.notna(enlace_imagen):
+            st.image(enlace_imagen, caption=f"Imagen del producto {producto}", use_column_width=True)
+        else:
+            st.warning("No hay imagen disponible para este producto.")
 
